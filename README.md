@@ -25,7 +25,7 @@ Open: http://127.0.0.1:5000/
 ## 🎯 Use Case
 Helps students and job seekers improve their resumes.
 
-#👤 Author
+#👤 Author 
 👨‍💻  *Subha Prayash Bisoi*
 🔗 GitHub: https://github.com/subhaprayashbisoi-rgb
 📧 Email: subhaprayashbisoi@gmail.com
