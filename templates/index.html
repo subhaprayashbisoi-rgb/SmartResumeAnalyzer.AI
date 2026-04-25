@@ -2,33 +2,150 @@
 <html>
 <head>
     <title>Smart Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body style="text-align:center; font-family:Arial; margin-top:50px;">
+<body>
 
-    <h1>Smart Resume Analyzer AI</h1>
+<div class="container">
 
-    <form method="POST">
-        <textarea name="resume" rows="10" cols="50" placeholder="Paste your resume here"></textarea>
-        <br><br>
-        <button type="submit">Analyze</button>
+    <h1>🚀 Smart Resume Analyzer AI</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+
+        <div id="drop-area">
+            <p>Drag & Drop Resume Here</p>
+            <p>or</p>
+
+            <input type="file" name="resume_file" id="fileElem" hidden>
+
+            <button type="button" onclick="document.getElementById('fileElem').click()">
+                Choose File
+            </button>
+        </div>
+
+        <div id="file-name"></div>
+
+        <button type="submit" class="analyze-btn">
+            Analyze Resume
+        </button>
+
     </form>
 
-    <h2>Score: {{ score }}%</h2>
+    <div class="progress-bar" id="progressBar"></div>
 
-    <h3>Detected Skills:</h3>
-    <ul>
-        {% for skill in skills %}
-            <li>{{ skill }}</li>
-        {% endfor %}
-    </ul>
+    {% if skills or missing %}
 
-    <h3>Missing Skills:</h3>
-    <ul>
-        {% for skill in missing %}
-            <li>{{ skill }}</li>
-        {% endfor %}
-    </ul>
+        <div class="score-box">
+    <div class="circle">
+        <span>{{ score }}%</span>
+    </div>
+    <p>ATS Score</p>
+</div>
+
+        <h3>✅ Detected Skills</h3>
+        <ul>
+            {% for skill in skills %}
+                <li class="good">{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        <div class="score-box">
+    <div class="circle">
+        <span>{{ score }}%</span>
+    </div>
+    <p>ATS Score</p>
+</div>
+
+        {% if missing %}
+        <h3>❌ Missing Skills</h3>
+        <ul>
+            {% for skill in missing %}
+                <li class="bad">{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if suggestions %}
+<h3>💡 Suggestions</h3>
+<ul>
+    {% for s in suggestions %}
+        <li class="suggest">{{ s }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+    {% endif %}
+
+</div>
+
+<script>
+let dropArea = document.getElementById('drop-area')
+let fileInput = document.getElementById('fileElem')
+let fileName = document.getElementById('file-name')
+
+dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault()
+    dropArea.classList.add('hover')
+})
+
+dropArea.addEventListener('dragleave', () => {
+    dropArea.classList.remove('hover')
+})
+
+dropArea.addEventListener('drop', (e) => {
+    e.preventDefault()
+    dropArea.classList.remove('hover')
+    fileInput.files = e.dataTransfer.files
+    fileName.innerText = fileInput.files[0].name
+})
+
+fileInput.addEventListener('change', () => {
+    fileName.innerText = fileInput.files[0].name
+})
+
+document.getElementById('uploadForm').addEventListener('submit', () => {
+    document.getElementById('progressBar').style.width = "100%"
+})
+
+</script>
 
 </body>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-brand">
+            <h2>🚀 SmartResumeAI</h2>
+            <p>Transforming resumes with AI-powered insights.</p>
+        </div>
+
+        <div class="footer-links">
+            <div>
+                <h4>Product</h4>
+                <p>Resume Checker</p>
+                <p>ATS Score</p>
+                <p>Skill Analysis</p>
+            </div>
+
+            <div>
+                <h4>Support</h4>
+                <p>Contact</p>
+                <p>Help Center</p>
+                <p>FAQ</p>
+            </div>
+
+            <div>
+                <h4>Legal</h4>
+                <p>Privacy Policy</p>
+                <p>Terms of Service</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © 2026 SmartResumeAI - All Rights Reserved <br>
+            <span class="creator">by Subha prayash aka. Bebboo's Gujjjuuuu</span>
+        </p>
+    </div>
+</footer>
 </html>
