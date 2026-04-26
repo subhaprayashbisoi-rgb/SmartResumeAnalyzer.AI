@@ -23,10 +23,6 @@ def extract_text(file):
                 if content:
                     text += content
 
-            if text.strip() == "":
-                image = Image.open(file)
-                text = pytesseract.image_to_string(image)
-
             return text
 
         elif filename.endswith('.docx'):
@@ -54,9 +50,7 @@ def analyze_resume(text):
             missing_skills.append(skill)
 
     score = int((len(found_skills) / len(skills_list)) * 100)
-    
 
-    # 🔥 Suggestions (NEW)
     suggestions = []
     if score < 50:
         suggestions.append("Add more technical skills relevant to the job.")
@@ -69,11 +63,13 @@ def analyze_resume(text):
 
     return found_skills, missing_skills, score, suggestions
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     skills = []
     missing = []
     score = 0
+    suggestions = []   # ✅ IMPORTANT FIX
 
     if request.method == "POST":
         file = request.files.get("resume_file")
@@ -85,11 +81,13 @@ def index():
 
             skills, missing, score, suggestions = analyze_resume(text)
 
-    return render_template("index.html", 
-                       skills=skills, 
-                       missing=missing, 
-                       score=score,
-                       suggestions=suggestions)
+    return render_template(
+        "index.html",
+        skills=skills,
+        missing=missing,
+        score=score,
+        suggestions=suggestions
+    )
 
 
 if __name__ == "__main__":

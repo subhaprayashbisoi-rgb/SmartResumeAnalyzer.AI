@@ -34,45 +34,40 @@
 
     <div class="progress-bar" id="progressBar"></div>
 
-    {% if skills or missing %}
+    {% if score > 0 %}
 
-        <div class="score-box">
-    <div class="circle">
-        <span>{{ score }}%</span>
+    <div class="score-box">
+        <div class="circle">
+            <span>{{ score }}%</span>
+        </div>
+        <p>ATS Score</p>
     </div>
-    <p>ATS Score</p>
-</div>
 
-        <h3>✅ Detected Skills</h3>
-        <ul>
-            {% for skill in skills %}
-                <li class="good">{{ skill }}</li>
-            {% endfor %}
-        </ul>
-        <div class="score-box">
-    <div class="circle">
-        <span>{{ score }}%</span>
-    </div>
-    <p>ATS Score</p>
-</div>
+    <h3>✅ Detected Skills</h3>
+    <ul>
+        {% for skill in skills %}
+            <li class="good">{{ skill }}</li>
+        {% endfor %}
+    </ul>
 
-        {% if missing %}
-        <h3>❌ Missing Skills</h3>
-        <ul>
-            {% for skill in missing %}
-                <li class="bad">{{ skill }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% if suggestions %}
-<h3>💡 Suggestions</h3>
-<ul>
-    {% for s in suggestions %}
-        <li class="suggest">{{ s }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+    {% if missing %}
+    <h3>❌ Missing Skills</h3>
+    <ul>
+        {% for skill in missing %}
+            <li class="bad">{{ skill }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
+    {% endif %}
+
+    {% if suggestions %}
+    <h3>💡 Suggestions</h3>
+    <ul>
+        {% for s in suggestions %}
+            <li class="suggest">{{ s }}</li>
+        {% endfor %}
+    </ul>
     {% endif %}
 
 </div>
@@ -99,16 +94,18 @@ dropArea.addEventListener('drop', (e) => {
 })
 
 fileInput.addEventListener('change', () => {
-    fileName.innerText = fileInput.files[0].name
+    if (fileInput.files.length > 0) {
+        fileName.innerText = fileInput.files[0].name
+    }
 })
 
 document.getElementById('uploadForm').addEventListener('submit', () => {
     document.getElementById('progressBar').style.width = "100%"
 })
-
 </script>
 
 </body>
+
 <footer class="footer">
     <div class="footer-container">
 
@@ -144,8 +141,9 @@ document.getElementById('uploadForm').addEventListener('submit', () => {
     <div class="footer-bottom">
         <p>
             © 2026 SmartResumeAI - All Rights Reserved <br>
-            <span class="creator">by Subha prayash aka. Bebboo's Gujjjuuuu</span>
+            <span class="creator">by Subha prayash </span>
         </p>
     </div>
 </footer>
+
 </html>
